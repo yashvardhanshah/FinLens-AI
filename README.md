@@ -95,7 +95,7 @@ streamlit run app.py
 
 ## 📄 License
 
-MIT License · Copyright (c) 2026 Yash Vardhan Shah
+MIT License · Copyright (c) 2026 Yashvardhan Shah
 
 ---
 
