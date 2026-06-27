@@ -101,7 +101,7 @@ MIT License · Copyright (c) 2026 Yashvardhan Shah
 
 <div align="center">
 
-**Built by [Yash Vardhan Shah](https://github.com/yashvardhanshah)**
+**Built by [Yashvardhan Shah](https://github.com/yashvardhanshah)**
 
 ⭐ Star this repo if you found it useful
 
