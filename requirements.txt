@@ -1,0 +1,22 @@
+# --- Web app ---
+streamlit
+python-dotenv
+
+# --- LLM / agent (agent.py) ---
+langchain
+langchain-classic
+langchain-core
+langchain-groq
+groq
+
+# --- Tools (tools.py) ---
+yfinance
+tavily-python
+
+# --- Document RAG (rag_pipeline.py) ---
+langchain-community
+langchain-text-splitters
+langchain-huggingface
+sentence-transformers
+faiss-cpu
+pypdf
