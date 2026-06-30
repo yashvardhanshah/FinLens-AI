@@ -13,6 +13,8 @@
 
 *Type a company name. Get a full research report. No finance degree required.*
 
+### 🔗 [https://finlensai.streamlit.app](https://finlensai.streamlit.app)
+
 ![Model](https://img.shields.io/badge/LLaMA%203.3-70B-purple?style=flat-square) ![Tools](https://img.shields.io/badge/3%20Live%20Data%20Sources-Connected-success?style=flat-square) ![Speed](https://img.shields.io/badge/Report%20Ready-Under%2030s-blue?style=flat-square)
 
 </div>
