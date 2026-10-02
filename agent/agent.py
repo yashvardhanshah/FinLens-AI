@@ -11,8 +11,8 @@ load_dotenv()
 def run_agent(company_name: str, ticker: str) -> str:
     llm = ChatGroq(
         api_key=os.getenv("GROQ_API_KEY"),
-        model_name="meta-llama/llama-4-scout-17b-16e-instruct",
-        temperature=0.3
+        model_name="qwen/qwen3.8-27b",
+        temperature=0
     )
 
     tools = [
@@ -102,7 +102,7 @@ Begin research now.
         agent=agent,
         tools=tools,
         verbose=True,
-        max_iterations=8,
+        max_iterations=10,
         handle_parsing_errors=True
     )
 
