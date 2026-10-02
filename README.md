@@ -68,9 +68,9 @@ The agent decides autonomously which tools to call and in what order — no rigi
 - **Custom CSS** — Dark theme with Syne + Inter typography, animations, responsive layout
 
 ### AI / Agent
-- **LangChain Classic** — ReAct agent, `AgentExecutor`, tool orchestration
+- **LangChain Classic** — tool-calling agent, `AgentExecutor`, tool orchestration
 - **LangChain Core** — `Tool`, `PromptTemplate`
-- **Groq API (LLaMA 3.3 70B)** — LLM inference for report synthesis
+- **Groq API (gpt-oss-120b)** — LLM inference for report synthesis
 
 ### Data Sources
 - **yfinance** — Live stock price and fundamentals (no API key required)
@@ -95,7 +95,7 @@ User Input (company name + ticker + optional PDF)
         → MiniLM-L6-v2 embeds chunks
         → FAISS indexes vectors in memory
         ↓
-    ReAct Agent initialised (LLaMA 3.3 70B via Groq)
+    tool-calling Agent initialised (LLaMA 3.3 70B via Groq)
         ↓
     Agent autonomously calls tools:
         → get_stock_data(ticker)     ← yfinance live data
@@ -123,7 +123,7 @@ FinLens-AI/
 ├── app.py                  # Main Streamlit app — all 4 pages and UI
 │
 ├── agent/
-│   ├── agent.py            # ReAct agent setup, prompt template, tool wiring
+│   ├── agent.py            # tool-calling agent setup, prompt template, tool wiring
 │   └── tools.py            # Tool functions: stock data, news search, doc search
 │
 ├── rag/
