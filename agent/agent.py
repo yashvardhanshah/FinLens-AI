@@ -11,8 +11,9 @@ load_dotenv()
 def run_agent(company_name: str, ticker: str) -> str:
     llm = ChatGroq(
         api_key=os.getenv("GROQ_API_KEY"),
-        model_name="qwen/qwen3.8-27b",
-        temperature=0
+        model_name="openai/gpt-oss-120b",
+        temperature=0,
+        reasoning_effort="low"
     )
 
     tools = [
