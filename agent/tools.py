@@ -75,10 +75,12 @@ def search_news(query: str) -> str:
     """
     try:
         response = tavily_client.search(
-            query=query,
-            search_depth="advanced",
-            max_results=5
-        )
+        query=query,
+        search_depth="advanced",
+        max_results=5,
+        topic="news",
+        time_range="month"
+    )
 
         results = response.get("results", [])
         if not results:
