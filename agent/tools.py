@@ -25,7 +25,10 @@ def get_stock_data(ticker: str) -> str:
     try:
         stock = yf.Ticker(ticker.strip().upper())
         info = stock.info
-
+        currency = info.get("currency", "USD")
+        symbols = {"USD": "$", "INR": "₹", "EUR": "€", "GBP": "£", "JPY": "¥",
+                "CNY": "¥", "CAD": "C$", "AUD": "A$", "HKD": "HK$", "CHF": "CHF "}
+        sym = symbols.get(currency, f"{currency} ")
         name        = info.get("longName", "N/A")
         price       = info.get("currentPrice", info.get("regularMarketPrice", "N/A"))
         mkt_cap     = info.get("marketCap", "N/A")
@@ -40,20 +43,22 @@ def get_stock_data(ticker: str) -> str:
 
         # Format market cap
         if isinstance(mkt_cap, (int, float)):
-            mkt_cap = f"${mkt_cap/1e12:.2f}T" if mkt_cap >= 1e12 else f"${mkt_cap/1e9:.2f}B"
+            mkt_cap = f"{sym}{mkt_cap/1e12:.2f}T" if mkt_cap >= 1e12 else f"{sym}{mkt_cap/1e9:.2f}B"
 
         # Format dividend yield
         if isinstance(div_yield, float):
             div_yield = f"{div_yield:.2f}%"
+        volume_str = f"{volume:,}" if isinstance(volume, (int, float)) else volume
 
         return f"""
 STOCK DATA — {name} ({ticker.upper()})
-Current Price:    ${price}
+Currency:         {currency}
+Current Price:    {sym}{price}
 Market Cap:       {mkt_cap}
 PE Ratio:         {pe}
-52-Week High:     ${week_high}
-52-Week Low:      ${week_low}
-Volume:           {volume:,} shares
+52-Week High:     {sym}{week_high}
+52-Week Low:      {sym}{week_low}
+Volume:           {volume_str} shares
 Dividend Yield:   {div_yield}
 Sector:           {sector}
 Business Summary: {summary}
