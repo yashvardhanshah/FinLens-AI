@@ -740,10 +740,15 @@ def page_research():
     uploaded_pdf = st.file_uploader("Upload PDF", type=["pdf"], label_visibility="collapsed")
 
     if uploaded_pdf:
-        with st.spinner("Reading your document..."):
-            vs = build_vectorstore(uploaded_pdf)
-            st.session_state.vectorstore = vs
+        pdf_key = (uploaded_pdf.name, uploaded_pdf.size)
+        if st.session_state.get("pdf_key") != pdf_key:
+            with st.spinner("Reading your document..."):
+                st.session_state.vectorstore = build_vectorstore(uploaded_pdf)
+                st.session_state.pdf_key = pdf_key
         st.success("Got it — your document is ready to use.")
+    else:
+        st.session_state.vectorstore = None
+        st.session_state.pdf_key = None
 
     st.markdown("<br>", unsafe_allow_html=True)
 
@@ -751,7 +756,7 @@ def page_research():
         if not company_name or not ticker:
             st.warning("Please fill in both the company name and stock symbol.")
         else:
-            set_vectorstore(st.session_state.vectorstore)
+            set_vectorstore(st.session_state.get("vectorstore"))
             st.session_state.last_company = company_name
             st.session_state.last_ticker = ticker.upper()
             with st.spinner(f"Putting together your report on {company_name}... this takes about 20–30 seconds"):
@@ -763,7 +768,9 @@ def page_research():
 
     if st.session_state.brief:
         st.markdown('<p style="font-size:1.05rem;color:#aab4c2;font-weight:600;border-bottom:1px solid #1f2530;padding-bottom:0.5rem;margin-top:2rem;font-weight:500;">Your Report</p>', unsafe_allow_html=True)
-        st.markdown(f'<div class="report-box">{st.session_state.brief}</div>', unsafe_allow_html=True)
+        safe_brief = st.session_state.brief.replace("$", "\\$")
+        with st.container(border=True):
+            st.markdown(safe_brief)
         st.markdown("<br>", unsafe_allow_html=True)
         st.download_button(
             label="⬇  Save This Report",

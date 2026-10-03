@@ -30,6 +30,7 @@ def get_stock_data(ticker: str) -> str:
         price       = info.get("currentPrice", info.get("regularMarketPrice", "N/A"))
         mkt_cap     = info.get("marketCap", "N/A")
         pe          = info.get("trailingPE", "N/A")
+        pe = f"{pe:.1f}" if isinstance(pe, (int, float)) else pe
         week_high   = info.get("fiftyTwoWeekHigh", "N/A")
         week_low    = info.get("fiftyTwoWeekLow", "N/A")
         volume      = info.get("volume", "N/A")
@@ -43,7 +44,7 @@ def get_stock_data(ticker: str) -> str:
 
         # Format dividend yield
         if isinstance(div_yield, float):
-            div_yield = f"{div_yield*100:.2f}%"
+            div_yield = f"{div_yield:.2f}%"
 
         return f"""
 STOCK DATA — {name} ({ticker.upper()})

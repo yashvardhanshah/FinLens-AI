@@ -12,7 +12,7 @@ def build_vectorstore(uploaded_file):
     """
     # Save uploaded file temporarily to disk
     with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as f:
-        f.write(uploaded_file.read())
+        f.write(uploaded_file.getvalue())
         tmp_path = f.name
 
     # Extract text from PDF page by page
