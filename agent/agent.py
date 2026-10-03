@@ -1,8 +1,8 @@
 import os
 from dotenv import load_dotenv
+from langchain_core.tools import tool
 from langchain_groq import ChatGroq
 from langchain_classic.agents import AgentExecutor, create_tool_calling_agent
-from langchain_core.tools import Tool
 from langchain_core.prompts import ChatPromptTemplate
 from agent.tools import get_stock_data, search_news, search_document
 
@@ -19,35 +19,25 @@ def run_agent(company_name: str, ticker: str) -> str:
         reasoning_effort="low",
     )
 
-    tools = [
-        Tool(
-            name="get_stock_data",
-            func=get_stock_data,
-            description=(
-                "Fetches live stock market data. "
-                "Input must be the stock ticker symbol e.g. AAPL, MSFT, UBS. "
-                "Returns price, market cap, PE ratio, 52-week high/low, volume."
-            ),
-        ),
-        Tool(
-            name="search_news",
-            func=search_news,
-            description=(
-                "Searches for latest news about a company. "
-                "Input should be a search query like 'Apple Inc earnings 2026'. "
-                "Returns recent news articles."
-            ),
-        ),
-        Tool(
-            name="search_document",
-            func=search_document,
-            description=(
-                "Searches the uploaded annual report or 10-K PDF. "
-                "Input should be a question like 'What are the main risk factors?'. "
-                "Returns relevant passages from the document."
-            ),
-        ),
-    ]
+    @tool("get_stock_data")
+    def stock_tool(ticker: str) -> str:
+        """Fetch live stock market data. Input: the stock ticker symbol, e.g. AAPL, MSFT, UBS.
+        Returns price, market cap, PE ratio, 52-week high/low, volume."""
+        return get_stock_data(ticker)
+
+    @tool("search_news")
+    def news_tool(query: str) -> str:
+        """Search for the latest news about a company. Input: a search query,
+        e.g. 'Apple Inc earnings 2026'. Returns recent news articles."""
+        return search_news(query)
+
+    @tool("search_document")
+    def document_tool(question: str) -> str:
+        """Search the uploaded annual report or 10-K PDF. Input: a question,
+        e.g. 'What are the main risk factors?'. Returns relevant passages."""
+        return search_document(question)
+
+    tools = [stock_tool, news_tool, document_tool]
 
     prompt = ChatPromptTemplate.from_messages([
         ("system", """You are FinLens AI, an elite financial research analyst.
